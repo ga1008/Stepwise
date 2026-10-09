@@ -1,0 +1,12 @@
+{
+  "name": "stepwise-desktop-tests",
+  "version": "1.3.0",
+  "private": true,
+  "description": "Development-only checks for Stepwise's embedded pages",
+  "license": "MIT",
+  "scripts": {
+    "test": "node tests/preferences-web-test.cjs && node tests/settings-web-test.cjs && node tests/export-bridge-test.cjs && node tests/standalone-html-test.cjs",
+    "test:annotation": "node tests/annotation-engine-test.cjs src/Stepwise/Web/fonts/NotoSansCJKsc-Regular.otf"
+  },
+  "devDependencies": { "@napi-rs/canvas": "0.1.100" }
+}

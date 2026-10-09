@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://capture.stepwise.local data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self' https://capture.stepwise.local">
+  <title>步录 · 截图标注</title>
+  <link rel="stylesheet" href="annotation.css">
+</head>
+<body>
+  <svg aria-hidden="true" class="symbol-library" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-select" viewBox="0 0 24 24"><path d="m5 3 14 10-7 1-3 7Z"/></symbol>
+    <symbol id="i-rect" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1"/></symbol>
+    <symbol id="i-ellipse" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8.5" ry="7"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="m5 16-1 4 4-1L20 7a2.1 2.1 0 0 0-3-3L5 16Zm10-10 3 3M5 16l3 3"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 19 15 8M10 5l10-1-1 10-4-6Z"/></symbol>
+    <symbol id="i-text" viewBox="0 0 24 24"><path d="M4 6V4h16v2M12 4v16M8 20h8"/></symbol>
+    <symbol id="i-width" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16"/><path d="M4 19h16" stroke-width="4"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="m8 4-5 5 5 5M3 9h11a6 6 0 0 1 0 12h-2"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 4 5 5-5 5m5-5H10a6 6 0 0 0 0 12h2"/></symbol>
+    <symbol id="i-delete" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+    <symbol id="i-fit" viewBox="0 0 24 24"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5M9 20H4v-5"/></symbol>
+  </defs></svg>
+  <header class="toolbar" aria-label="截图标注工具栏">
+    <div class="brand" title="步录 · 截图标注"><span>S</span><b>标注</b></div>
+    <div class="tool-group draw-tools" role="group" aria-label="绘制工具">
+      <button class="tool active" data-tool="select" aria-label="选择与移动" title="选择与移动 · V" aria-pressed="true"><svg><use href="#i-select"/></svg></button>
+      <button class="tool" data-tool="rect" aria-label="矩形框" title="矩形框 · R" aria-pressed="false"><svg><use href="#i-rect"/></svg></button>
+      <button class="tool" data-tool="ellipse" aria-label="圈选" title="圈选 · O" aria-pressed="false"><svg><use href="#i-ellipse"/></svg></button>
+      <button class="tool" data-tool="pen" aria-label="画笔" title="画笔 · P" aria-pressed="false"><svg><use href="#i-pen"/></svg></button>
+      <button class="tool" data-tool="arrow" aria-label="箭头" title="实心箭头 · A" aria-pressed="false"><svg><use href="#i-arrow"/></svg></button>
+      <button class="tool" data-tool="text" aria-label="文字" title="文字 · T" aria-pressed="false"><svg><use href="#i-text"/></svg></button>
+    </div>
+    <div class="tool-group settings" role="group" aria-label="笔迹样式">
+      <label class="number-control" title="线宽（原图像素），箭头大小由长度决定"><svg><use href="#i-width"/></svg><select id="line-width" aria-label="画笔粗细"><option value="2">2</option><option value="3">3</option><option value="5" selected>5</option><option value="8">8</option><option value="12">12</option><option value="18">18</option></select></label>
+      <label class="number-control font-control" title="文字大小（原图像素）"><span>Aa</span><select id="font-size" aria-label="文字大小"><option>16</option><option>20</option><option>24</option><option selected>28</option><option>36</option><option>48</option><option>64</option><option>96</option></select></label>
+      <label class="color-control" title="选择颜色"><input type="color" id="color" value="#f04d4d" aria-label="笔迹颜色"><span id="color-chip"></span></label>
+      <div class="color-palette" aria-label="常用颜色">
+        <button data-color="#f04d4d" class="swatch selected" aria-label="红色" title="红色" style="--swatch:#f04d4d"></button>
+        <button data-color="#ffc644" class="swatch" aria-label="黄色" title="黄色" style="--swatch:#ffc644"></button>
+        <button data-color="#36c991" class="swatch" aria-label="绿色" title="绿色" style="--swatch:#36c991"></button>
+        <button data-color="#4e9cff" class="swatch" aria-label="蓝色" title="蓝色" style="--swatch:#4e9cff"></button>
+        <button data-color="#ffffff" class="swatch" aria-label="白色" title="白色" style="--swatch:#ffffff"></button>
+        <button data-color="#20272d" class="swatch" aria-label="黑色" title="黑色" style="--swatch:#20272d"></button>
+      </div>
+    </div>
+    <div class="tool-group history" role="group" aria-label="编辑操作">
+      <button class="tool" id="undo" aria-label="撤销" title="撤销 · Ctrl+Z" disabled><svg><use href="#i-undo"/></svg></button>
+      <button class="tool" id="redo" aria-label="重做" title="重做 · Ctrl+Y" disabled><svg><use href="#i-redo"/></svg></button>
+      <button class="tool danger" id="delete" aria-label="删除选中笔迹" title="删除选中笔迹 · Delete" disabled><svg><use href="#i-delete"/></svg></button>
+    </div>
+    <div class="final-actions">
+      <button id="cancel" class="action secondary" title="取消本次截图 · Esc"><svg><use href="#i-close"/></svg><span>取消</span></button>
+      <button id="confirm" class="action primary" title="确认并记录 · Ctrl+Enter" disabled><svg><use href="#i-check"/></svg><span>确认</span></button>
+    </div>
+  </header>
+  <div id="notice" role="alert" hidden><span id="notice-text"></span><button id="notice-close" aria-label="关闭提示">×</button></div>
+  <main id="stage" tabindex="0" aria-label="截图画布，滚轮缩放，空格拖动画布">
+    <canvas id="canvas" aria-label="标注画布"></canvas>
+    <textarea id="text-input" aria-label="标注文字" spellcheck="false" placeholder="输入文字" hidden></textarea>
+    <div id="loading"><span class="spinner"></span><span id="loading-text">正在准备截图</span></div>
+    <div id="text-tip" hidden>点击输入 · Enter 换行 · Ctrl + Enter 完成</div>
+  </main>
+  <footer class="statusbar">
+    <div class="status-copy"><span id="tool-name">选择与移动</span><span class="status-divider"></span><span id="hint">点击笔迹后拖动 · Delete 删除</span></div>
+    <div class="zoom-controls"><span id="dimensions"></span><button id="zoom-out" aria-label="缩小" title="缩小"><svg><use href="#i-minus"/></svg></button><button id="zoom-value" title="100% 实际像素">100%</button><button id="zoom-in" aria-label="放大" title="放大"><svg><use href="#i-plus"/></svg></button><button id="zoom-fit" aria-label="适应窗口" title="适应窗口 · Ctrl+0"><svg><use href="#i-fit"/></svg></button></div>
+  </footer>
+  <script src="annotation-engine.js"></script>
+  <script src="annotation.js"></script>
+</body>
+</html>

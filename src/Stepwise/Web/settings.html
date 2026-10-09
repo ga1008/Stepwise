@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>步录 · 设置</title><link rel="stylesheet" href="settings.css"></head>
+<body>
+<header><div class="brand-mark">步</div><div><h1>设置</h1><p>让每一步，都顺手。</p></div><span class="header-note">STEPWISE</span></header>
+<div class="workspace"><nav aria-label="设置分区"><a href="#annotation"><span>✎</span>标注</a><a href="#capture"><span>◉</span>采集</a><a href="#export"><span>↗</span>导出</a><a href="#workspace"><span>▣</span>工作区</a><a href="#hotkeys"><span>⌘</span>快捷键</a><div class="nav-note">新设置保存后生效<br>当前项目保持原位</div></nav>
+<main id="main"><div id="loading" class="loading">正在读取配置…</div><form id="settings-form" hidden>
+<section id="annotation"><div class="section-heading"><span>01</span><div><h2>默认标注</h2><p>每次打开标注时，从这里开始。</p></div></div><div class="card">
+<div class="row"><label for="annotation-tool">工具</label><select id="annotation-tool"><option value="select">选择</option><option value="rect">矩形</option><option value="ellipse">椭圆</option><option value="pen">画笔</option><option value="arrow">箭头</option><option value="text">文字</option></select></div>
+<div class="row"><label for="annotation-color">颜色</label><div class="color-control"><span id="color-value">#F04D4D</span><input type="color" id="annotation-color" aria-label="默认标注颜色"></div></div>
+<div class="row"><label for="annotation-width">线条粗细</label><select id="annotation-width"><option>2</option><option>3</option><option>5</option><option>8</option><option>12</option><option>18</option></select><span class="unit">px</span></div>
+<div class="row"><label for="annotation-font">字体大小</label><select id="annotation-font"><option>16</option><option>20</option><option>24</option><option>28</option><option>36</option><option>48</option><option>64</option><option>96</option></select><span class="unit">px</span></div>
+<div class="row"><label for="zoom-mode">画布缩放</label><select id="zoom-mode"><option value="fit">适应窗口</option><option value="custom">固定比例</option></select><div id="zoom-custom" class="inline" hidden><input id="zoom-scale" type="number" min="1" max="800" step="1" aria-label="固定缩放百分比"><span class="unit">%</span></div></div>
+</div></section>
+<section id="capture"><div class="section-heading"><span>02</span><div><h2>采集</h2><p>按钮采用默认等待；立即操作快捷键跳过等待。</p></div></div><div class="card">
+<div class="row"><label for="screenshot-delay">截图等待</label><select id="screenshot-delay"><option value="0">0 秒</option><option value="3">3 秒</option><option value="5">5 秒</option><option value="10">10 秒</option></select></div>
+<div class="row"><label for="recording-delay">录制等待</label><select id="recording-delay"><option value="0">0 秒</option><option value="3">3 秒</option><option value="5">5 秒</option><option value="10">10 秒</option></select></div>
+<div class="row"><div class="label"><label for="system-audio">系统声音</label><small>收集电脑播放的声音</small></div><label class="switch"><input id="system-audio" type="checkbox" aria-label="收集系统声音"><span></span></label></div>
+<div class="row"><div class="label"><label for="microphone">麦克风</label><small>收集解说与环境声音</small></div><label class="switch"><input id="microphone" type="checkbox" aria-label="收集麦克风声音"><span></span></label></div>
+</div><p class="section-note">展开箭头中选择的等待时间只用于当次操作。</p></section>
+<section id="export"><div class="section-heading"><span>03</span><div><h2>录制导出</h2><p>原始录制保留在项目内，便于再次导出。</p></div></div><div class="card">
+<div class="row"><label for="export-format">默认格式</label><select id="export-format"><option value="mp4">MP4 视频</option><option value="gif">GIF 动图</option></select></div>
+<div class="row"><div class="label"><label for="export-muted">MP4 默认静音</label><small>GIF 始终无声</small></div><label class="switch"><input id="export-muted" type="checkbox" aria-label="MP4 默认静音"><span></span></label></div>
+<div class="format-heading">MP4 <span>视频</span></div><div class="row"><label for="mp4-fps">帧率</label><input id="mp4-fps" type="number" min="1" max="60" step="1" required><span class="unit">fps</span></div>
+<div class="row"><div class="label"><label for="mp4-width">最大宽度</label><small>0 为原始大小</small></div><input id="mp4-width" type="number" min="0" max="7680" step="1" required><span class="unit">px</span></div>
+<div class="format-heading">GIF <span>动图</span></div><div class="row"><label for="gif-fps">帧率</label><input id="gif-fps" type="number" min="1" max="30" step="1" required><span class="unit">fps</span></div>
+<div class="row"><div class="label"><label for="gif-width">最大宽度</label><small>0 为原始大小</small></div><input id="gif-width" type="number" min="0" max="7680" step="1" required><span class="unit">px</span></div>
+</div><p class="section-note">保持画面比例，不放大小尺寸素材。帧率或尺寸越高，文件通常越大。</p></section>
+<section id="workspace"><div class="section-heading"><span>04</span><div><h2>工作区与记忆</h2><p>配置保存在本机，退出后仍然保留。</p></div></div><div class="card">
+<div class="directory-row"><label for="project-directory">默认项目位置</label><div class="directory-input"><input id="project-directory" type="text" placeholder="系统文档文件夹" autocomplete="off" spellcheck="false"><button type="button" id="browse-directory" class="secondary">选择</button></div><small>每次启动仍会确认项目名称与位置；留空使用系统文档文件夹。</small></div>
+<div class="row"><div class="label"><label for="remember-choices">跟随操作更新配置</label><small id="remember-hint">记住标注、声音、格式与窗口位置的最新选择</small></div><label class="switch"><input id="remember-choices" type="checkbox" aria-describedby="remember-hint"><span></span></label></div>
+</div><p class="section-note">关闭后，操作中的临时调整不再改写默认值；在此保存设置仍然有效。</p></section>
+<section id="hotkeys"><div class="section-heading"><span>05</span><div><h2>快捷键</h2><p>选中输入框后按组合键；留空即可停用。</p></div><button type="button" id="reset-hotkeys" class="text-button">恢复默认</button></div><div id="hotkey-list" class="card"></div><p class="section-note">组合键至少包含 Ctrl、Alt 或 Win。自动检查系统级占用；应用内快捷键可能无法检测。</p><div id="hotkey-summary" class="hotkey-summary" role="status" aria-live="polite"></div></section>
+</form></main></div>
+<footer><button id="reset-all" type="button" class="text-button">恢复全部默认</button><div id="feedback" role="status" aria-live="polite">配置仅在保存后更新</div><button id="cancel" type="button" class="secondary">取消</button><button id="save" type="submit" form="settings-form" class="primary" disabled>保存设置</button></footer>
+<script src="settings.js"></script></body></html>

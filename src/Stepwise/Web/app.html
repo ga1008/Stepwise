@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' https://project.stepwise.local data:; media-src 'self' https://project.stepwise.local; base-uri 'none'; form-action 'none'; connect-src 'none'">
+  <title>步录 · Stepwise</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><span class="brand-symbol">S</span><span>步录</span><span class="brand-word">STEPWISE</span></div>
+    <div class="header-actions">
+      <button class="icon-button" id="preview-button" title="文档预览" aria-label="文档预览"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      <button class="icon-button" id="reveal-button" title="打开项目文件夹" aria-label="打开项目文件夹"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3Z"/></svg></button>
+      <span class="header-divider"></span>
+      <button class="icon-button" id="close-button" title="关闭窗口" aria-label="关闭窗口"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    </div>
+  </header>
+  <div id="status" class="status" role="status" hidden><span id="status-text"></span><button id="dismiss-status" title="关闭提示" aria-label="关闭提示">×</button></div>
+  <div id="warnings" class="warnings" hidden></div>
+  <main id="editor" class="editor" hidden>
+    <section class="capture-column">
+      <div class="section-eyebrow"><span class="small-dot"></span><span id="capture-kind">本次截图</span><span id="capture-duration"></span></div>
+      <div class="media-stage" id="editor-media"></div>
+      <div class="capture-caption"><span id="capture-details"></span><span>素材已保存在项目中</span></div>
+    </section>
+    <section class="form-column">
+      <div class="step-overline" id="editor-overline">STEP 01</div>
+      <h1>留下操作的来龙去脉。</h1>
+      <p class="form-intro">一张图，一段说明，串起完整的过程。</p>
+      <form id="step-form">
+        <label for="step-title">步骤标题<span class="field-count" id="title-count">0 / 200</span></label>
+        <input id="step-title" name="title" type="text" maxlength="200" placeholder="例如：打开网络适配器设置" autocomplete="off">
+        <label for="step-description">详细说明<span class="field-hint">可选</span></label>
+        <textarea id="step-description" name="description" maxlength="100000" placeholder="操作了什么？为什么这样做？有哪些需要注意的细节？"></textarea>
+        <div id="recording-options" class="recording-options" hidden>
+          <div class="option-line"><span class="option-label">保存格式</span><div class="segment" role="group" aria-label="保存格式"><button type="button" data-format="mp4" class="selected" aria-pressed="true">MP4</button><button type="button" data-format="gif" aria-pressed="false">GIF</button></div></div>
+          <div class="option-line"><label class="switch-label" for="muted"><input type="checkbox" id="muted"><span class="switch-track"></span><span>静音</span></label><span class="option-hint" id="format-hint">保留原始录制，可再次转换</span></div>
+        </div>
+        <div class="form-footer"><span class="draft-indicator" id="draft-indicator"><i></i> 自动暂存</span><button type="submit" class="primary-button" id="save-button">保存步骤 <span>↗</span></button></div>
+        <div class="keyboard-hint">Ctrl + Enter 保存 <span>·</span> Esc 收起</div>
+      </form>
+    </section>
+  </main>
+  <main id="preview" class="preview" hidden>
+    <aside class="preview-sidebar"><div class="sidebar-eyebrow">步骤目录<span id="step-count">00</span></div><nav id="step-navigation" aria-label="步骤目录"></nav><div class="sidebar-note"><i></i> 每次保存，自动更新<br><span>document.html 可离线查看</span></div></aside>
+    <section class="document-area"><div class="document-topline"><span>操作记录 / PROCESS NOTES</span><div class="document-tools"><button id="recover-button" class="text-button" type="button" title="查找上次中断的屏幕录制">恢复录制</button><button id="print-button" class="text-button" type="button">打印 / PDF ↗</button><button id="export-button" class="export-button" type="button" title="导出 Word、单文件 HTML、长图或 PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/></svg>导出</button></div></div><div class="title-row"><h1 id="project-title" tabindex="0" role="button" title="点击修改项目名称"></h1><button id="rename-button" class="icon-button" title="修改项目名称" aria-label="修改项目名称"><svg viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l4-1L20 7a2.8 2.8 0 0 0-4-4L4 15Z"/></svg></button></div><div id="document-meta" class="document-meta"></div><div id="steps"></div><footer class="document-footer"><span>由 步录 Stepwise 整理</span><span>所有文件均保存在本地</span></footer></section>
+  </main>
+  <div id="loading" class="loading"><span class="brand-symbol">S</span><p>正在打开项目…</p></div>
+  <dialog id="lightbox" class="lightbox"><button id="lightbox-close" class="lightbox-close" title="关闭大图" aria-label="关闭大图">×</button><img id="lightbox-image" alt="步骤截图"></dialog>
+  <dialog id="rename-dialog" class="small-dialog"><form id="rename-form"><div class="dialog-eyebrow">PROJECT NAME</div><h2>为这份记录命名</h2><input id="rename-input" type="text" maxlength="200" required aria-label="项目名称"><div class="dialog-actions"><button type="button" id="rename-cancel" class="secondary-button">取消</button><button type="submit" class="primary-button">保存</button></div></form></dialog>
+  <dialog id="delete-dialog" class="small-dialog"><div class="dialog-eyebrow">REMOVE STEP</div><h2>从文档中移除这一步？</h2><p>截图、视频和原始录制会保留在项目文件夹中。</p><div class="dialog-actions"><button type="button" id="delete-cancel" class="secondary-button">保留</button><button type="button" id="delete-confirm" class="danger-button">移除步骤</button></div></dialog>
+  <template id="step-template"><article class="document-step"><div class="step-heading"><span class="step-number"></span><div class="step-name"><div class="step-label"></div><h2></h2></div><div class="step-actions"><button class="icon-button move-up" title="上移" aria-label="上移"><svg viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></svg></button><button class="icon-button move-down" title="下移" aria-label="下移"><svg viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></svg></button><button class="icon-button edit-step" title="编辑步骤" aria-label="编辑步骤"><svg viewBox="0 0 24 24"><path d="m15 5 4 4M4 20l4-1L20 7a2.8 2.8 0 0 0-4-4L4 15Z"/></svg></button><button class="icon-button delete-step" title="移除步骤" aria-label="移除步骤"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg></button></div></div><p class="step-description"></p><figure><div class="step-media"></div><figcaption></figcaption></figure></article></template>
+</body>
+</html>

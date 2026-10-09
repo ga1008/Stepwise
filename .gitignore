@@ -1,0 +1,21 @@
+**/bin/
+**/obj/
+dist/
+verification/
+# One-off recorder of a private desktop acceptance session, not a reusable test.
+tests/annotation-native-verify.cjs
+node_modules/
+.vs/
+.idea/
+*.user
+*.suo
+*.pdb
+.env
+.env.*
+!.env.example
+*.log
+tools/ffmpeg.exe
+tools/ffprobe.exe
+tools/*.7z
+tools/*.zip
+tools/sources/
